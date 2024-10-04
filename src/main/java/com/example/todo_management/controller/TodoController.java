@@ -29,6 +29,7 @@ public class TodoController {
    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<TodoDto> create(@RequestBody TodoDto requestTodoDto) {
+       System.out.println("Helloo tra");
         TodoDto todoDto =  todoService.addTodo(requestTodoDto);
 
         return new ResponseEntity<>(todoDto, HttpStatus.CREATED);
