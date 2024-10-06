@@ -30,11 +30,10 @@ public class TodoController {
     @PostMapping
     public ResponseEntity<TodoDto> create(@RequestBody TodoDto requestTodoDto) {
         TodoDto todoDto =  todoService.addTodo(requestTodoDto);
-
         return new ResponseEntity<>(todoDto, HttpStatus.CREATED);
     }
 
- @PreAuthorize("hasAnyRole('ADMIN','USER')")
+@PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping
     public ResponseEntity<List<TodoDto>> getAll() {
         List<TodoDto> allTodoDto = todoService.getAll();
