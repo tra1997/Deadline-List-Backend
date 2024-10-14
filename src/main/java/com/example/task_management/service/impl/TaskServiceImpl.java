@@ -69,10 +69,8 @@ public class TaskServiceImpl implements TaskService {
     public TaskDto addTodo(TaskDto requestTaskDto) {
 
         Task task = todoDtoToTodo(requestTaskDto);
-
+        task.setFlagDelete(true);
         Task saveTask = taskReponsitory.save(task);
-
-        //   TodoDto todoDto= modelMapper.map(saveTodo,TodoDto.class);
 
 
         return todoToTodoDto(saveTask);
@@ -84,6 +82,7 @@ public class TaskServiceImpl implements TaskService {
         List<Task> tasks = taskReponsitory.findAll();
 
         return tasks.stream()
+                .filter(task -> task.isFlagDelete())
                 .map(task -> todoToTodoDto(task))
                 .toList(); // chuyển stream thành list
     }
@@ -94,6 +93,7 @@ public class TaskServiceImpl implements TaskService {
         List<Task> tasks = taskReponsitory.findAllByUsername(requestUsername);
 
         return tasks.stream()
+                .filter(task -> task.isFlagDelete())
                 .map(task -> todoToTodoDto(task))
                 .toList();
     }
@@ -115,7 +115,6 @@ public class TaskServiceImpl implements TaskService {
         task.setTitle(requestTaskDto.getTitle());
         task.setDescription(requestTaskDto.getDescription());
         task.setCompleted(requestTaskDto.isCompleted());
-
         task.setDeadlineTime(localDateTimeToInt(requestTaskDto.getDeadlineTime()));
 
         task.setUsername(requestTaskDto.getUsername());
@@ -127,8 +126,8 @@ public class TaskServiceImpl implements TaskService {
     public String deleteTodo(Long requestId) {
         Task task = taskReponsitory.findById(requestId)
                 .orElseThrow(() -> new ResourceNotFoundException("Todo not found with id : " + requestId));
-
-        taskReponsitory.delete(task);
+        task.setFlagDelete(false);
+        taskReponsitory.save(task);
         return "Todo deleted successfully !!";
     }
 

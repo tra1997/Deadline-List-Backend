@@ -25,6 +25,7 @@ import java.util.List;
 @RequestMapping("/api/todos")
 public class TaskController {
 
+
     private final TaskService taskService;
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -32,6 +33,7 @@ public class TaskController {
     public ResponseEntity<TaskDto> create(@RequestBody TaskDto requestTaskDto) {
 
         TaskDto taskDto = taskService.addTodo(requestTaskDto);
+
         return new ResponseEntity<>(taskDto, HttpStatus.CREATED);
     }
 

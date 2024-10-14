@@ -33,6 +33,6 @@ public class Task {
     private String username;
     @Column(nullable = false)
     private LocalDateTime deadlineTime;
-
+    private boolean flagDelete;
 
 }
