@@ -69,6 +69,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskDto addTodo(TaskDto requestTaskDto) {
 
         Task task = todoDtoToTodo(requestTaskDto);
+        task.setCompleted(false);
         task.setFlagDelete(true);
         Task saveTask = taskReponsitory.save(task);
 
